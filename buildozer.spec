@@ -45,9 +45,9 @@ android.permissions = ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, READ_CONTACT
 # Android API seviyeleri
 # -----------------------------------------------------------------------
 android.minapi = 26
-android.api = 33
+android.api = 34
 android.ndk = 25b
-android.sdk = 33
+android.sdk = 34
 android.archs = arm64-v8a
 android.accept_sdk_license = True
 android.enable_androidx = True
