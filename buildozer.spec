@@ -17,9 +17,9 @@ source.exclude_dirs = .data,__pycache__,.git,.buildozer,bin,p4a-recipes
 source.exclude_patterns = *.pyc,*.pyo,tests/*,*.md,colab_build.ipynb
 
 # -----------------------------------------------------------------------
-# Gereksinimler
+# Gereksinimler (Sürüm takıntısını aşmak için python3'ü yalın bıraktık)
 # -----------------------------------------------------------------------
-requirements = python3==3.11.9,kivy==2.3.0,kivymd==1.2.0,pillow==10.3.0,android,pyjnius,plyer,certifi
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow==10.3.0,android,pyjnius,plyer,certifi
 
 p4a.bootstrap = sdl2
 
