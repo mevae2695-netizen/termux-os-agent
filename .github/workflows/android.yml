@@ -32,9 +32,9 @@ jobs:
           path: |
             ~/.buildozer
             .buildozer
-          key: ${{ runner.os }}-buildozer-v4-${{ hashFiles('buildozer.spec') }}
+          key: ${{ runner.os }}-buildozer-v5-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-v4-
+            ${{ runner.os }}-buildozer-v5-
 
       - name: Install Buildozer and Dependencies
         run: |
@@ -42,16 +42,6 @@ jobs:
           sudo apt install -y zip unzip git autoconf autotools-dev automake libtool libtool-bin libltdl-dev pkg-config zlib1g-dev libncurses-dev libssl-dev cmake libffi-dev
           python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
-
-      - name: Override Pillow Version in P4A Recipe
-        run: |
-          # p4a'nın kendi içindeki Pillow recipe dosyasını bulup surumu 11.1.0'a zorluyoruz
-          # (10.3.0, Python 3.14'un C API degisikliklerini desteklemiyor)
-          P4A_DIR=$(python3 -c "import pythonforandroid; import os; print(os.path.dirname(pythonforandroid.__file__))")
-          if [ -f "$P4A_DIR/recipes/pillow/__init__.py" ]; then
-            sed -i 's/version = .*/version = "11.1.0"/g' "$P4A_DIR/recipes/pillow/__init__.py"
-            echo "P4A Pillow recipe surumu basariyla 11.1.0 olarak degistirildi."
-          fi
 
       - name: Build APK
         env:
