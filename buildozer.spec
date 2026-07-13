@@ -27,7 +27,9 @@ p4a.bootstrap = sdl2
 # 'master' branch'inden taze cekiyor. Bu, upstream guncellendikce (ornegin
 # varsayilan Python hedefi 3.14'e cekildiginde) bizim build'imizin habersizce
 # kirilmasina neden oluyordu. Bilinen, Kivy 2.3.0 ile uyumlu bir surume sabitliyoruz.
-p4a.branch = 2024.1.21
+# NOT: GitHub tag formati PyPI surum adindan farkli - basinda 'v' var ve ay
+# iki haneli yaziliyor (ornegin PyPI'da "2024.1.21" ama GitHub tag'i "v2024.01.21").
+p4a.branch = v2024.01.21
 
 # -----------------------------------------------------------------------
 # Android Foreground Service
