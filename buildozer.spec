@@ -23,6 +23,12 @@ requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow==11.1.0,android,pyjnius,
 
 p4a.bootstrap = sdl2
 
+# ONEMLI: p4a.branch belirtilmezse buildozer, python-for-android'i GitHub'in
+# 'master' branch'inden taze cekiyor. Bu, upstream guncellendikce (ornegin
+# varsayilan Python hedefi 3.14'e cekildiginde) bizim build'imizin habersizce
+# kirilmasina neden oluyordu. Bilinen, Kivy 2.3.0 ile uyumlu bir surume sabitliyoruz.
+p4a.branch = 2024.1.21
+
 # -----------------------------------------------------------------------
 # Android Foreground Service
 # -----------------------------------------------------------------------
