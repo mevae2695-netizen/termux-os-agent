@@ -1,0 +1,5 @@
+.buildozer/
+bin/
+.gradle/
+__pycache__/
+*.pyc

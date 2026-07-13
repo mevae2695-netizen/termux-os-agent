@@ -1,0 +1,39 @@
+# OS Agent — Python Bağımlılıkları
+#
+# ÖNEMLİ: Buildozer, APK'yı derlerken bu dosyayı OKUMAZ. APK için
+# gerçek bağımlılık listesi `buildozer.spec` içindeki `requirements =`
+# satırıdır. Bu dosya sadece masaüstünde/Termux'ta uygulamayı Android
+# dışı bir Python ile hızlıca test etmek isteyenler içindir (ör. core/
+# modüllerini pyjnius olmadan, ANDROID=False düşüş yollarıyla denemek).
+#
+# Kurulum: pip install -r requirements.txt
+
+# UI framework (buildozer.spec ile aynı sürümler pinlendi)
+kivy==2.3.0
+kivymd==1.2.0
+
+# Görsel
+pillow>=10.0.0
+
+# HTTPS indirmelerinde (ör. model indirme) CA doğrulama sorunlarını önler
+certifi>=2024.2.2
+
+# Android köprüsü — sadece gerçek cihaz/emülatörde anlamlıdır, masaüstünde
+# kurulamaz/gerekmez. Buildozer bunu ayrıca APK'ya gömer.
+# pyjnius>=1.6.1
+# plyer>=2.1.0
+
+# --- AI Modeli (isteğe bağlı) --------------------------------------------
+# Uygulama, model kurulu değilse veya bu paket import edilemiyorsa OTOMATİK
+# olarak kural-tabanlı (STUB) motora düşer (core/nlp_engine.py). Yani model
+# olmadan da uygulama tamamen çalışır durumdadır.
+#
+# Masaüstünde/Termux'ta NLU motorunu gerçek bir modelle denemek isterseniz:
+#   pip install llama-cpp-python>=0.2.90
+#
+# Android APK'sında llama-cpp-python VARSAYILAN OLARAK DERLENMEZ (bkz.
+# p4a-recipes/README.md) — cross-compile için resmi/stabil bir
+# python-for-android recipe'i yoktur ve derlemeyi büyük olasılıkla
+# başarısız kılar. İsteyen kullanıcılar bunu kendi sorumluluklarında
+# buildozer.spec'in requirements listesine ekleyebilir.
+# llama-cpp-python>=0.2.90
