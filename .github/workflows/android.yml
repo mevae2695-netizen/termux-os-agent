@@ -26,13 +26,19 @@ jobs:
           sudo apt update
           sudo apt install -y zip unzip git autoconf autotools-dev automake libtool libtool-bin libltdl-dev pkg-config zlib1g-dev libncurses-dev libssl-dev cmake libffi-dev
           python3 -m pip install --upgrade pip --break-system-packages
+          # Sürümler arası çatışmayı önlemek için p4a sürümünü ve cython'u kilitledik
           python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
 
       - name: Build APK
         env:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
+          # KRİTİK AYAR: p4a'nın deneysel Python 3.14 indirmesini bu iki çevre değişkeniyle engelliyoruz!
+          P4A_python3_version: "3.11.9"
+          P4A_hostpython3_version: "3.11.9"
         run: |
+          # Önceki hatalı indirmeler kalıntı bırakmasın diye temizlik yapıp başlatalım
+          buildozer android clean
           buildozer android debug
 
       - name: Upload APK
