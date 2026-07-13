@@ -28,16 +28,20 @@ jobs:
           python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
 
-      - name: Build APK
+      - name: Purge Old Cache and Build APK
         env:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
           P4A_python3_version: "3.11.9"
           P4A_hostpython3_version: "3.11.9"
         run: |
-          # Temizlik komutunu kaldırdık, doğrudan derlemeye geçiyoruz
+          # KÖKTEN ÇÖZÜM: Önceki 11.3.0 ve 3.14 hatalarını barındıran tüm gizli global cache klasörlerini siliyoruz
+          rm -rf ~/.buildozer/
+          rm -rf .buildozer/
+          
+          # Şimdi temizlenmiş parametrelerle derlemeyi sıfırdan başlatıyoruz
           buildozer android debug
-
+          
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
