@@ -21,17 +21,15 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # ⚡ ÖNBELLEK SIFIRLAMA VE YENİDEN BAŞLATMA
-      # Anahtarı 'buildozer-v2' yaptık. Bu sayede eski Pillow 11.3 barındıran tüm önbellek TAMAMEN silinecek.
       - name: Cache Android SDK & Buildozer
         uses: actions/cache@v4
         with:
           path: |
             ~/.buildozer
             .buildozer
-          key: ${{ runner.os }}-buildozer-v2-${{ hashFiles('buildozer.spec') }}
+          key: ${{ runner.os }}-buildozer-v3-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-v2-
+            ${{ runner.os }}-buildozer-v3-
 
       - name: Install Buildozer and Dependencies
         run: |
@@ -40,15 +38,23 @@ jobs:
           python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
 
+      - name: Override Pillow Version in P4A Recipe
+        run: |
+          # 🎯 KESİN ÇÖZÜM: p4a'nın kendi içindeki Pillow kural dosyasını bulup sürümü zorla 10.3.0 yapıyoruz!
+          P4A_DIR=$(python3 -c "import pythonforandroid; import os; print(os.path.dirname(pythonforandroid.__file__))")
+          if [ -f "$P4A_DIR/recipes/pillow/__init__.py" ]; then
+            sed -i 's/version = .*/version = "10.3.0"/g' "$P4A_DIR/recipes/pillow/__init__.py"
+            echo "P4A Pillow recipe sürümü başarıyla 10.3.0 olarak değiştirildi."
+          fi
+
       - name: Build APK
         env:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
-          # p4a derleyicisine 3.14 kullanmasını KESİN OLARAK yasaklıyoruz.
           P4A_python3_version: "3.11.9"
           P4A_hostpython3_version: "3.11.9"
         run: |
-          # Temiz ve sıfırlanmış hafızayla derlemeyi başlatıyoruz
+          # Bu sefer o inatçı Pillow sürümünü sistem seviyesinde ezdiğimiz için hata vermeden devam edecek
           buildozer android debug
 
       - name: Upload APK
