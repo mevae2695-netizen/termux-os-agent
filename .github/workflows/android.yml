@@ -15,6 +15,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Verify Python version
+        run: |
+          which python3
+          python3 --version
+
       - name: Install Java
         uses: actions/setup-java@v4
         with:
@@ -27,9 +32,9 @@ jobs:
           path: |
             ~/.buildozer
             .buildozer
-          key: ${{ runner.os }}-buildozer-v3-${{ hashFiles('buildozer.spec') }}
+          key: ${{ runner.os }}-buildozer-v4-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-v3-
+            ${{ runner.os }}-buildozer-v4-
 
       - name: Install Buildozer and Dependencies
         run: |
@@ -40,21 +45,19 @@ jobs:
 
       - name: Override Pillow Version in P4A Recipe
         run: |
-          # 🎯 KESİN ÇÖZÜM: p4a'nın kendi içindeki Pillow kural dosyasını bulup sürümü zorla 10.3.0 yapıyoruz!
+          # p4a'nın kendi içindeki Pillow recipe dosyasını bulup surumu 11.1.0'a zorluyoruz
+          # (10.3.0, Python 3.14'un C API degisikliklerini desteklemiyor)
           P4A_DIR=$(python3 -c "import pythonforandroid; import os; print(os.path.dirname(pythonforandroid.__file__))")
           if [ -f "$P4A_DIR/recipes/pillow/__init__.py" ]; then
-            sed -i 's/version = .*/version = "10.3.0"/g' "$P4A_DIR/recipes/pillow/__init__.py"
-            echo "P4A Pillow recipe sürümü başarıyla 10.3.0 olarak değiştirildi."
+            sed -i 's/version = .*/version = "11.1.0"/g' "$P4A_DIR/recipes/pillow/__init__.py"
+            echo "P4A Pillow recipe surumu basariyla 11.1.0 olarak degistirildi."
           fi
 
       - name: Build APK
         env:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
-          P4A_python3_version: "3.11.9"
-          P4A_hostpython3_version: "3.11.9"
         run: |
-          # Bu sefer o inatçı Pillow sürümünü sistem seviyesinde ezdiğimiz için hata vermeden devam edecek
           buildozer android debug
 
       - name: Upload APK
