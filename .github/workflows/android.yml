@@ -21,12 +21,12 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Install Buildozer
+      - name: Install Buildozer and Dependencies
         run: |
           sudo apt update
-          sudo apt install -y zip unzip git autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-          python -m pip install --upgrade pip
-          pip install buildozer==1.5.0 python-for-android==2024.1.21 Cython==3.0
+          sudo apt install -y zip unzip git autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev ffmpeg
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
 
       - name: Build APK
         run: |
@@ -35,5 +35,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: APK
+          name: APK-Package
           path: bin/*.apk
