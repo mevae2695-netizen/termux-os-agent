@@ -19,7 +19,7 @@ source.exclude_patterns = *.pyc,*.pyo,tests/*,*.md,colab_build.ipynb
 # -----------------------------------------------------------------------
 # Gereksinimler (Sürüm takıntısını aşmak için python3'ü yalın bıraktık)
 # -----------------------------------------------------------------------
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow==10.3.0,android,pyjnius,plyer,certifi
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow==11.1.0,android,pyjnius,plyer,certifi
 
 p4a.bootstrap = sdl2
 
