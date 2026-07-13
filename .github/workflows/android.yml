@@ -21,16 +21,17 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # ⚡ AKILLI ÖNBELLEK (CACHE): Android SDK, NDK ve Buildozer paketlerini hafızaya alıyoruz
+      # ⚡ ÖNBELLEK SIFIRLAMA VE YENİDEN BAŞLATMA
+      # Anahtarı 'buildozer-v2' yaptık. Bu sayede eski Pillow 11.3 barındıran tüm önbellek TAMAMEN silinecek.
       - name: Cache Android SDK & Buildozer
         uses: actions/cache@v4
         with:
           path: |
             ~/.buildozer
             .buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          key: ${{ runner.os }}-buildozer-v2-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            ${{ runner.os }}-buildozer-
+            ${{ runner.os }}-buildozer-v2-
 
       - name: Install Buildozer and Dependencies
         run: |
@@ -43,10 +44,11 @@ jobs:
         env:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
+          # p4a derleyicisine 3.14 kullanmasını KESİN OLARAK yasaklıyoruz.
           P4A_python3_version: "3.11.9"
           P4A_hostpython3_version: "3.11.9"
         run: |
-          # Artık 'clean' veya 'rm -rf' yok! Doğrudan akıllı derleme yapıyoruz.
+          # Temiz ve sıfırlanmış hafızayla derlemeyi başlatıyoruz
           buildozer android debug
 
       - name: Upload APK
