@@ -46,13 +46,6 @@ android.enable_androidx = True
 android.gradle_dependencies = androidx.core:core:1.12.0
 
 # -----------------------------------------------------------------------
-# Görsel
-# -----------------------------------------------------------------------
-android.presplash.filename = assets/splash.png
-android.icon.filename = assets/icon.png
-android.presplash_color = #100F14
-
-# -----------------------------------------------------------------------
 # Davranış
 # -----------------------------------------------------------------------
 android.fullscreen = 0
