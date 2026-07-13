@@ -34,3 +34,9 @@ jobs:
           BUILDOZER_WARN_ON_ROOT: "0"
         run: |
           buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK-Package
+          path: bin/*.apk
