@@ -29,11 +29,8 @@ jobs:
           python3 -m pip install Cython==0.29.33 buildozer==1.5.0 python-for-android==2024.1.21 --break-system-packages
 
       - name: Build APK
+        env:
+          BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
+          BUILDOZER_WARN_ON_ROOT: "0"
         run: |
           buildozer android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: APK-Package
-          path: bin/*.apk
