@@ -58,7 +58,23 @@ jobs:
           BUILDOZER_ACCEPT_ANDROID_SDK_LICENSE: "1"
           BUILDOZER_WARN_ON_ROOT: "0"
         run: |
-          buildozer android debug
+          # Bazi kaynak sunuculari (orn. GNU Savannah) ara sira 502/503 gibi
+          # gecici hatalar verebiliyor. Bu yuzden build'i birkac kez deniyoruz;
+          # onceki denemede indirilen dosyalar .buildozer cache'inde kaldigi
+          # icin bir sonraki deneme kaldigi yerden devam eder.
+          set +e
+          MAX_TRIES=3
+          for i in $(seq 1 $MAX_TRIES); do
+            echo "== Build denemesi $i / $MAX_TRIES =="
+            buildozer android debug
+            RESULT=$?
+            if [ $RESULT -eq 0 ]; then
+              break
+            fi
+            echo "Build basarisiz oldu (exit $RESULT). 20 saniye sonra tekrar denenecek..."
+            sleep 20
+          done
+          exit $RESULT
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
