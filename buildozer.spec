@@ -21,7 +21,6 @@ source.exclude_patterns = *.pyc,*.pyo,tests/*,*.md,colab_build.ipynb
 # -----------------------------------------------------------------------
 requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,android,pyjnius,plyer,certifi
 
-p4a.local_recipes = p4a-recipes/
 p4a.bootstrap = sdl2
 
 # -----------------------------------------------------------------------
